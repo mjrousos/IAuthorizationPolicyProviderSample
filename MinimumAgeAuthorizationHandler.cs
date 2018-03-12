@@ -15,12 +15,15 @@ namespace PolicyProvider
             _logger = logger;
         }
 
+        // Check whether a given MinimumAgeRequirement req. is satisfied or not for a particular context
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, MinimumAgeRequirement requirement)
         {
             // Log as a warning so that it's very clear in sample output which authorization policies 
             // (and requirements/handlers) are in use
             _logger.LogWarning("Evaluating authorization requirement for age >= {age}", requirement.Age);
 
+            // Check the user's age (which won't actually be used in this sample since in an effort to 
+            // keep this sample smll we don't authenticate the user or extract any claims)
             var dateOfBirthClaim = context.User.FindFirst(c => c.Type == ClaimTypes.DateOfBirth);
             if (dateOfBirthClaim != null)
             {
